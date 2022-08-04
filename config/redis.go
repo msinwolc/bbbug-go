@@ -55,3 +55,17 @@ func GetToken(username string) (string, error) {
 	}
 	return token, nil
 }
+
+func GetCacheString(name string) (string, error) {
+	res, err := Rdb.rdb.Get(name).Result()
+	return res, err
+}
+
+func SetCacheString(name string, token string, expire time.Duration) error {
+	err := Rdb.rdb.Set(name, token, expire).Err()
+	return err
+}
+
+func DeleCacheString(name string) {
+	Rdb.rdb.Del(name)
+}

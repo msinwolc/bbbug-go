@@ -27,8 +27,8 @@ type User struct {
 	UserTouchtip  string
 	UserVip       string
 	UserStatus    int
-	UserCreatedAt time.Time `gorm:"type:datetime; not null" json:"user_created_at"`
-	UserUpdatedAt time.Time `gorm:"type:datetime; not null" json:"user_updated_at"`
+	UserCreatedAt int64 `gorm:"autoCreateTime"`
+	UserUpdatedAt int64 `gorm:"autoUpdateTime"`
 }
 
 func TableName() string {
@@ -66,8 +66,8 @@ func RegByLogin(account, password, ip, device string) (User, error) {
 		UserRemark:    "",
 		UserIpreg:     ip,
 		UserDevice:    device,
-		UserCreatedAt: time.Now(),
-		UserUpdatedAt: time.Now(),
+		UserCreatedAt: 0,
+		UserUpdatedAt: 0,
 	}).FirstOrCreate(&user)
 	if result.Error != nil {
 		return user, result.Error
@@ -89,12 +89,12 @@ func GetUserStatusById(id int) (int, error) {
 
 func GetUserInfoById(id int) (User, error) {
 	user := User{}
-	result := GetDB().Table(TableName()).Where("uid = ?", id).First(&user)
+	result := GetDB().Table(TableName()).Where("user_id = ?", id).First(&user)
 	return user, result.Error
 }
 
 func UpdateUser(id int, attr map[string]interface{}) error {
-	result := GetDB().Model(&User{}).Where("uid = ?", id).Updates(attr)
+	result := GetDB().Model(&User{}).Where("user_id = ?", id).Updates(attr)
 	return result.Error
 }
 

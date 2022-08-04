@@ -1,5 +1,5 @@
 app_name = "bbbug-go"
 
 [redis]
-hostname = "1.14.193.52"
+hostname = "121.4.166.249"
 port = "6379"

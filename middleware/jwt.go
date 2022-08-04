@@ -9,7 +9,7 @@ import (
 	"github.com/msinwolc/models"
 )
 
-var jwtKey = []byte("123456")
+var jwtKey = []byte("msinwolc")
 
 func CreateToken(userName, plat string, userId int, expireDuration time.Duration) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

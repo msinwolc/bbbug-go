@@ -1,8 +1,8 @@
 app_name = "bbbug-go"
 
 [mysql]
-hostname = "1.14.193.52"
+hostname = "121.4.166.249"
 port = "3306"
 username = "root"
-password = "leiye"
+password = "root"
 database = "bbbug-go"
