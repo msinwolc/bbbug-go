@@ -1,5 +1,7 @@
 # BBBug-Go
 
+参照 https://gitee.com/bbbug_com/ChatWEB 用 Go 及 React 重写
+
 * 后端目录: BBBUG-GO
 
   启动前，请修改config目录的 ```database.toml``` 及 ```redis.toml```
