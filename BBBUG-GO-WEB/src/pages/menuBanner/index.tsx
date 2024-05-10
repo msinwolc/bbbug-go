@@ -1,23 +1,39 @@
 import * as React from "react";
 import "./index.less";
 import { useEffect, useState } from "react";
-import { Icon } from "@chakra-ui/react";
-import { CopyIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
+import Icon, { MessageOutlined, ProfileOutlined, SettingOutlined, StepBackwardOutlined } from "@ant-design/icons";
 
 interface MenuBannerProps {}
 
 const MenuBanner: React.FunctionComponent<MenuBannerProps> = (props) => {
   const {} = props;
   const [menuList, setMenuList] = useState<
-    { menuName: string; menuIconUrl: string }[]
+    { menuName: string; menuIconUrl: string; icon?: any }[]
   >([]);
   useEffect(() => {
     // 根据用户权限获取菜单列表
     setMenuList([
-      { menuName: "歌单", menuIconUrl: "" },
-      { menuName: "已点", menuIconUrl: "" },
-      { menuName: "房间", menuIconUrl: "" },
-      { menuName: "设置", menuIconUrl: "" },
+      {
+        menuName: "歌单",
+        menuIconUrl: "/page/musicList",
+        icon: <StepBackwardOutlined />,
+      },
+      {
+        menuName: "已点",
+        menuIconUrl: "/page/oderList",
+        icon: <ProfileOutlined />,
+      },
+      {
+        menuName: "房间",
+        menuIconUrl: "/page",
+        icon: <MessageOutlined />,
+      },
+      {
+        menuName: "设置",
+        menuIconUrl: "/page/setting",
+        icon: <SettingOutlined />,
+      },
     ]);
   }, []);
 
@@ -28,8 +44,10 @@ const MenuBanner: React.FunctionComponent<MenuBannerProps> = (props) => {
         {menuList.map((menu, index) => {
           return (
             <li key={index}>
-              <Icon as={CopyIcon} />
-              <p>{menu.menuName}</p>
+              <Link to={menu.menuIconUrl}>
+                <Icon component={()=>menu.icon} />
+                <p>{menu.menuName}</p>
+              </Link>
             </li>
           );
         })}

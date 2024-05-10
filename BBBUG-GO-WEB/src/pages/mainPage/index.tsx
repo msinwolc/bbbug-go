@@ -11,7 +11,9 @@ const MainPage: React.FunctionComponent<MainPageProps> = (props) => {
   return (
     <div className={"mainPage-baner"}>
       <MenuBanner />
-      <Outlet />
+      <div style={{ display: "inline-block", flex: 1 }}>
+        <Outlet />
+      </div>
     </div>
   );
 };

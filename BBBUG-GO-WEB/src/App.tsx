@@ -15,7 +15,7 @@ function App() {
   return (
     <div className={"mainPage"} ref={mainPageRef}>
       <React.StrictMode>
-        <Suspense fallback={<>加载中。。。</>}>
+        <Suspense>
           <BrowserRouter>
             <RootComponent />
           </BrowserRouter>

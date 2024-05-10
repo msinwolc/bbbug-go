@@ -1,9 +1,11 @@
 //路由配置
-import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 const Login = lazy(() => import("../pages/login"));
-const MainChat = lazy(() => import("../pages/mainChat"));
 const MainPage = lazy(() => import("../pages/mainPage"));
+const MusicListPage = lazy(() => import("../pages/musicListPage"));
+const OderListPage = lazy(() => import("../pages/oderListPage"));
+const RoomPage = lazy(() => import("../pages/roomPage"));
+const SettingPage = lazy(() => import("../pages/settingPage"));
 
 const router = [
   { path: "/login", element: <Login /> },
@@ -11,8 +13,10 @@ const router = [
     path: "/page",
     element: <MainPage />,
     children: [
-      { path: "", element: <MainChat />, index: true },
-      { path: "", element: <MainChat />, index: true },
+      { path: "/page/musicList", element: <MusicListPage />},
+      { path: "/page/oderList", element: <OderListPage />},
+      { path: "", element: <RoomPage />, index: true },
+      { path: "/page/setting", element: <SettingPage />},
     ],
   },
 ];
