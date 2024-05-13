@@ -1,10 +1,28 @@
 .musicListPagePanel {
-  padding: 20px 10px;
-  .musicCardPanel{
+  padding: 20px 10px 80px 10px;
+  min-height: 100%;
+  .musicCardPanel {
     display: flex;
     justify-content: space-between;
   }
-  .musicSearchListPanel{
+  .musicSearchListPanel {
     margin-top: 20px;
+  }
+  .musicPlayBar {
+    position: fixed;
+    bottom: 0px;
+    height: 80px;
+    width: calc(100vw - 120px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    .musicPlayBar-content {
+      height: 60px;
+      width: 100%;
+      border: 1px solid #f0f0f0;
+      border-radius: 10px;
+      box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    }
   }
 }

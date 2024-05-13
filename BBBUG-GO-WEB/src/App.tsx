@@ -1,6 +1,5 @@
 import "./App.css";
 import { Suspense, useEffect, useRef } from "react";
-import MenuBanner from "./pages/menuBanner";
 import router from "./router/router";
 import * as React from "react";
 import RootComponent from "./router/routerComponent";

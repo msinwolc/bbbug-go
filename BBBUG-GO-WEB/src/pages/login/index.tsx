@@ -1,8 +1,6 @@
 import * as React from "react";
 import "./index.less";
 import { useEffect, useState } from "react";
-import { Icon } from "@chakra-ui/react";
-import { CopyIcon } from "@chakra-ui/icons";
 
 interface MenuBannerProps {}
 
