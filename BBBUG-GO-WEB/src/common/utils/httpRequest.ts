@@ -8,9 +8,9 @@ type ajaxProps = AxiosRequestConfig;
 
 //默认配置
 const instance = axios.create({
-  // baseURL: "http://127.0.0.1:4000/api",
+  // baseURL: "http://217.142.228.188:8080/api/",
   baseURL: "",
-  timeout: 1000,
+  timeout: 10000,
   // headers: {'X-Custom-Header': 'foobar'}
 });
 
@@ -33,7 +33,7 @@ export const ajax = (config: ajaxProps) => {
       .then((res) => {
         const { data } = res;
         switch (data?.code) {
-          case 0:
+          case 200:
             resolve(data?.data || {});
             break;
 

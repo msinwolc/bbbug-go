@@ -2,5 +2,6 @@ interface useIsAuthProps {}
 
 export const useIsAuth = (props: useIsAuthProps) => {
   const {} = props;
-  return true;
+  const isLogin = localStorage.getItem("isLogin");
+  return isLogin;
 };

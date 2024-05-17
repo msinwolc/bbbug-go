@@ -2,6 +2,7 @@ import * as React from "react";
 import "./index.less";
 import { Card, List } from "antd";
 import ListHeader from "./components/ListHeader";
+import MusicPlayBar from "../../components/musicPlayBar";
 
 interface MusicListPageProps {}
 
@@ -89,7 +90,7 @@ const MusicListPage: React.FunctionComponent<MusicListPageProps> = (props) => {
       </div>
       <div className={"musicPlayBar"}>
         <div className="musicPlayBar-content">
-          
+          <MusicPlayBar />
         </div>
       </div>
     </div>
