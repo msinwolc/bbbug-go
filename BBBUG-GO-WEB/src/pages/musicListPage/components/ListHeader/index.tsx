@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./index.less";
 import { useEffect, useState } from "react";
 import Search from "antd/es/input/Search";
 

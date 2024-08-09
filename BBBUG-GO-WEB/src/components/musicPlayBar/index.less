@@ -10,23 +10,56 @@
       .MusicPlayBar-content-left-img {
         height: 50px;
         width: 50px;
+        margin-left: 5px;
         img {
           height: 50px;
           width: 50px;
           border-radius: 50%;
         }
       }
-      .MusicPlayBar-content-left-info{
-        margin-left: 5px;
-        .progress-bar{
-          .ant-slider-handle{
+      .MusicPlayBar-content-left-info {
+        margin-left: 20px;
+        width: calc(100% - 160px);
+        .MusicPlayBar-content-left-info-name {
+          span {
+            font-size: 13px;
+            margin-right: 10px;
+          }
+        }
+        .progress-bar {
+          .ant-slider-handle {
             width: 3px;
             height: 3px;
           }
         }
-        .ant-slider-handle::after{
+        .ant-slider {
+          margin: 5px;
+        }
+        .ant-slider-handle::after {
           width: 5px;
           height: 5px;
+        }
+      }
+    }
+    .MusicPlayBar-content-right {
+      width: 25px;
+      height: 25px;
+      margin-left: 25px;
+      .ant-btn {
+        height: 100%;
+        width: 100%;
+        .ant-btn-icon {
+          height: 100%;
+          width: 100%;
+          .order-list-icon {
+            height: 100%;
+            width: 100%;
+            svg {
+              height: 100%;
+              width: 100%;
+              color: rgb(168, 152, 152);
+            }
+          }
         }
       }
     }

@@ -3,11 +3,12 @@ import "./index.less";
 import { useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, Space } from "antd";
 import { useNavigate } from "react-router-dom";
+import { doLogin } from "../../api/global";
 
 interface MenuBannerProps {}
 interface FieldType {
-  username?: string;
-  password?: string;
+  user_account?: string;
+  user_password?: string;
   remember?: string;
 }
 
@@ -18,14 +19,15 @@ const Login: React.FunctionComponent<MenuBannerProps> = (props) => {
   useEffect(() => {}, []);
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
+    doLogin(values).then((res: any) => {
+      localStorage.setItem("access_token", res.access_token);
+      localStorage.setItem("isLogin", "true");
+      navigate("/");
+    });
   };
+
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
-  };
-  const onLogin = () => {
-    localStorage.setItem("isLogin", "true");
-    navigate("/");
   };
 
   return (
@@ -43,7 +45,7 @@ const Login: React.FunctionComponent<MenuBannerProps> = (props) => {
         >
           <Form.Item<FieldType>
             label="账号"
-            name="username"
+            name="user_account"
             rules={[{ required: true, message: "请输入账号!" }]}
           >
             <Input />
@@ -51,7 +53,7 @@ const Login: React.FunctionComponent<MenuBannerProps> = (props) => {
 
           <Form.Item<FieldType>
             label="密码"
-            name="password"
+            name="user_password"
             rules={[{ required: true, message: "请输入密码!" }]}
           >
             <Input.Password />
@@ -66,7 +68,7 @@ const Login: React.FunctionComponent<MenuBannerProps> = (props) => {
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit" onClick={onLogin}>
+            <Button type="primary" htmlType="submit">
               登录
             </Button>
           </Form.Item>

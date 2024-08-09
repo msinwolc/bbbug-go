@@ -61,6 +61,7 @@ interface SystemMsg {
 export interface GlobalState {
   userMsg: UserMsg;
   systemMsg: SystemMsg;
+  socket: WebSocket;
 }
 
 const gloableSlice = createSlice({
@@ -73,16 +74,20 @@ const gloableSlice = createSlice({
       plat: "vue",
       version: 10000,
     },
+    socket: {},
   } as GlobalState,
   reducers: {
     setUserMsg: (state, action: PayloadAction<UserMsg>) => {
       state.userMsg = action.payload;
     },
-    setSystemMsg: (state, action: PayloadAction<UserMsg>) => {
-      state.userMsg = action.payload;
+    setSystemMsg: (state, action: PayloadAction<SystemMsg>) => {
+      state.systemMsg = action.payload;
+    },
+    setSocket: (state, action: PayloadAction<WebSocket>) => {
+      state.socket = action.payload;
     },
   },
 });
 
-export const { setUserMsg, setSystemMsg } = gloableSlice.actions;
+export const { setUserMsg, setSystemMsg, setSocket } = gloableSlice.actions;
 export default gloableSlice.reducer;

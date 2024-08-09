@@ -5,22 +5,21 @@ import RootComponent from "./router/routerComponent";
 import { BrowserRouter } from "react-router-dom";
 import Provider from "react-redux/es/components/Provider";
 import store, { RootState } from "./store/store";
+import { getWebsocketUrl } from "./api/global";
+import { useSelector } from "react-redux";
 
 function App() {
   const mainPageRef = useRef(null);
-  // const dispatch = useDispatch();
 
   return (
     <div className={"mainPage"} ref={mainPageRef}>
-      <React.StrictMode>
-        <Suspense>
+      <Suspense>
           <Provider store={store}>
             <BrowserRouter>
               <RootComponent />
             </BrowserRouter>
           </Provider>
         </Suspense>
-      </React.StrictMode>
     </div>
   );
 }
