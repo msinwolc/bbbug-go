@@ -1,6 +1,18 @@
+import {
+  ActionCreatorWithPayload,
+  AnyAction,
+  Dispatch,
+} from "@reduxjs/toolkit";
 import { getWebsocketUrl } from "../../api/global";
+import { ChatMsgObj, UserMsg } from "../../types/global";
 
-export const useWebsocket = async (roomId?: number) => {
+export const useWebsocket = async (
+  chatMsg: any[],
+  dispatch: Dispatch<AnyAction>,
+  setChatMsg: ActionCreatorWithPayload<ChatMsgObj, "global/setChatMsg">,
+  userMsg: UserMsg,
+  roomId?: number
+) => {
   console.log("@@@@@@@@@@@@@@@@@@@@@@@");
   const access_token = localStorage.getItem("access_token");
   const res: any = await getWebsocketUrl({
@@ -24,7 +36,18 @@ export const useWebsocket = async (roomId?: number) => {
     console.log("连接成功");
   };
   socketNew.onmessage = (event: any) => {
-    console.log(JSON.parse(event.data));
+    const data = JSON.parse(event.data);
+    if (data?.type === "text" && data?.user.user_id !== userMsg.user_id) {
+      dispatch(
+        setChatMsg({
+          msg: data?.content,
+          user_id: data?.user.user_id,
+          user_name: data?.user.user_name,
+          user_head: data?.user.user_head,
+          message_time: data?.message_time,
+        })
+      );
+    }
   };
   socketNew.onclose = () => {
     console.log("连接关闭");

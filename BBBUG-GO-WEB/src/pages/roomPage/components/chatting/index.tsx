@@ -2,6 +2,7 @@ import * as React from "react";
 import "./index.less";
 import { useEffect, useState } from "react";
 import { List } from "antd";
+import Dialog from "../dialog";
 
 interface MenuBannerProps {
   msgList: any[];
@@ -17,7 +18,9 @@ const Chatting: React.FunctionComponent<MenuBannerProps> = (props) => {
           itemLayout="horizontal"
           dataSource={msgList}
           renderItem={(item, index) => (
-            <List.Item key={index}>{item}</List.Item>
+            <List.Item key={index}>
+              <Dialog msgObj={item} />
+            </List.Item>
           )}
         />
       )}

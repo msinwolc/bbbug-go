@@ -1,67 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ChatMsgObj, SystemMsg, UserMsg } from "../types/global";
 
-interface Room {
-  room_id: number;
-  room_user: number;
-  room_addsongcd: number;
-  room_addcount: number;
-  room_pushdaycount: number;
-  room_pushsongcd: number;
-  room_online: number;
-  room_realonline: number;
-  room_hide: number;
-  room_name: string;
-  room_type: number;
-  room_public: number;
-  room_password: string;
-  room_notice: string;
-  room_addsong: number;
-  room_sendmsg: number;
-  room_robot: number;
-  room_order: number;
-  room_reason: string;
-  room_playone: number;
-  room_votepass: number;
-  room_votepercent: number;
-  room_background: string;
-  room_app: string;
-  room_fullpage: number;
-  room_status: number;
-  room_createtime: number;
-  room_updatetime: number;
-  admin: any;
-}
-interface UserMsg {
-  pass_count: number;
-  push_count: number;
-  user_admin: boolean;
-  user_id: number;
-  user_icon: number;
-  user_sex: number;
-  user_name: string;
-  user_head: string;
-  user_remark: string;
-  user_extra: string;
-  user_device: string;
-  user_touchtip: string;
-  user_vip: string;
-  user_group: number;
-  myRoom: Room;
-  user_shutdown: boolean;
-  user_songdown: boolean;
-  user_guest: boolean;
-}
-
-interface SystemMsg {
-  access_token: string;
-  plat: string;
-  version: number;
-}
-
+// 全局状态
 export interface GlobalState {
   userMsg: UserMsg;
   systemMsg: SystemMsg;
   socket: WebSocket;
+  chatMsg: ChatMsgObj[];
 }
 
 const gloableSlice = createSlice({
@@ -75,19 +20,24 @@ const gloableSlice = createSlice({
       version: 10000,
     },
     socket: {},
+    chatMsg: [] as ChatMsgObj[],
   } as GlobalState,
   reducers: {
     setUserMsg: (state, action: PayloadAction<UserMsg>) => {
       state.userMsg = action.payload;
     },
-    setSystemMsg: (state, action: PayloadAction<SystemMsg>) => {
-      state.systemMsg = action.payload;
+    setSystemMsg: (state, action: PayloadAction<string>) => {
+      state.systemMsg = { ...state.systemMsg, access_token: action.payload };
     },
     setSocket: (state, action: PayloadAction<WebSocket>) => {
       state.socket = action.payload;
     },
+    setChatMsg: (state, action: PayloadAction<ChatMsgObj>) => {
+      state.chatMsg.push(action.payload);
+    },
   },
 });
 
-export const { setUserMsg, setSystemMsg, setSocket } = gloableSlice.actions;
+export const { setUserMsg, setSystemMsg, setSocket, setChatMsg } =
+  gloableSlice.actions;
 export default gloableSlice.reducer;

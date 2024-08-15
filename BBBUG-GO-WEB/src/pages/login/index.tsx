@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 import { doLogin } from "../../api/global";
+import { setSystemMsg } from "../../store/global";
+import { useDispatch } from "react-redux";
 
 interface MenuBannerProps {}
 interface FieldType {
@@ -15,12 +17,14 @@ interface FieldType {
 const Login: React.FunctionComponent<MenuBannerProps> = (props) => {
   const {} = props;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {}, []);
 
   const onFinish = (values: any) => {
     doLogin(values).then((res: any) => {
       localStorage.setItem("access_token", res.access_token);
+      dispatch(setSystemMsg(res.access_token));
       localStorage.setItem("isLogin", "true");
       navigate("/");
     });

@@ -3,9 +3,10 @@ import "./index.less";
 import { useEffect, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { RootState } from "../../../../store/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sendMsg } from "../../../../api/global";
 import { sendSocketMsg } from "../../../../common/utils/tools";
+import { setChatMsg } from "../../../../store/global";
 
 interface MenuBannerProps {}
 
@@ -14,7 +15,10 @@ const InputArea: React.FunctionComponent<MenuBannerProps> = (props) => {
   const ref = React.useRef(null);
   const [value, setValue] = useState("");
   const userMsg = useSelector((state: RootState) => state.userMsg);
+  const chatMsg = useSelector((state: RootState) => state.chatMsg);
   let socket = useSelector((state: RootState) => state.socket);
+
+  const dispatch = useDispatch();
 
   const handlePressEnter = (e: any) => {
     console.log(e);
@@ -23,6 +27,17 @@ const InputArea: React.FunctionComponent<MenuBannerProps> = (props) => {
   const handleKeyDown = (e: any) => {
     if (e.keyCode === 13) {
       e.preventDefault();
+      // 立即渲染自己发送的消息
+      dispatch(
+        setChatMsg({
+          msg: value,
+          user_id: userMsg.user_id,
+          user_name: userMsg.user_name,
+          user_head: userMsg.user_head,
+          message_time: new Date().getTime(),
+        })
+      );
+
       sendSocketMsg({ type: "text", msg: value, roomId: 888 });
       setValue("");
     }

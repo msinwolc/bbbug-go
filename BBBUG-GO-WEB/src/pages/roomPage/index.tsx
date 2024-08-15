@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import TopBar from "./components/topBar";
 import Chatting from "./components/chatting";
 import InputArea from "./components/inputArea";
-import { getUserMsg, getWebsocketUrl } from "../../api/global";
-import { setSocket, setUserMsg } from "../../store/global";
+import { getUserMsg } from "../../api/global";
+import { setSocket, setUserMsg, setChatMsg } from "../../store/global";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { isEmpty } from "lodash";
@@ -18,38 +18,60 @@ const MainChat: React.FunctionComponent<MainChatProps> = (props) => {
   const dispatch = useDispatch();
 
   const systemMsg = useSelector((state: RootState) => state.systemMsg);
+  const userMsg = useSelector((state: RootState) => state.userMsg);
+  const chatMsg = useSelector((state: RootState) => state.chatMsg);
 
-  const data = {
+  const [data, setData] = useState({
     roomId: 1234,
     roomName: "",
     inlineUserCount: 0,
     msgList: [],
-  };
+  });
 
   let socket = useSelector((state: RootState) => state.socket);
 
-  useEffect(() => {
-    if (isEmpty(socket) || socket?.readyState === WebSocket.CLOSED) {
-      useWebsocket().then((socketNew) => {
-        dispatch(setSocket(socketNew));
-      });
-      return () => {
-        console.log("组件卸载");
-        if (
-          socket.readyState === WebSocket.OPEN ||
-          socket.readyState === WebSocket.CONNECTING
-        ) {
-          socket.close();
-        }
-      };
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isEmpty(socket) || socket?.readyState === WebSocket.CLOSED) {
+  //     useWebsocket(chatMsg, dispatch, setChatMsg, userMsg).then((socketNew) => {
+  //       dispatch(setSocket(socketNew));
+  //     });
+  //     return () => {
+  //       console.log("组件卸载");
+  //       if (
+  //         socket.readyState === WebSocket.OPEN ||
+  //         socket.readyState === WebSocket.CONNECTING
+  //       ) {
+  //         socket.close();
+  //       }
+  //     };
+  //   }
+  // }, []);
 
   useEffect(() => {
     // 获取用户信息
-    getUserMsg(systemMsg).then((res: any) => {
-      dispatch(setUserMsg(res));
-    });
+    const access_token = localStorage.getItem("access_token");
+    getUserMsg({ ...systemMsg, access_token: access_token }).then(
+      (res: any) => {
+        // 变更全局用户信息
+        dispatch(setUserMsg(res));
+        // 创建socket
+        if (isEmpty(socket) || socket?.readyState === WebSocket.CLOSED) {
+          useWebsocket(chatMsg, dispatch, setChatMsg, res).then((socketNew) => {
+            dispatch(setSocket(socketNew));
+          });
+        }
+      }
+    );
+
+    return () => {
+      console.log("组件卸载");
+      if (
+        socket.readyState === WebSocket.OPEN ||
+        socket.readyState === WebSocket.CONNECTING
+      ) {
+        socket.close();
+      }
+    };
   }, []);
 
   return (
@@ -62,7 +84,7 @@ const MainChat: React.FunctionComponent<MainChatProps> = (props) => {
         />
       </div>
       <div className={"mainChatPanel-chatting"}>
-        <Chatting msgList={data.msgList} />
+        <Chatting msgList={chatMsg} />
       </div>
       <div className={"mainChatPanel-inputArea"}>
         <InputArea />
